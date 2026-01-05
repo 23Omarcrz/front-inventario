@@ -1,0 +1,65 @@
+.input-group {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #3d3d55;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 6px 25px 6px 5px;
+    box-sizing: border-box;
+
+    background: #f0f2ff;
+    border: 1px solid #d7d9ef;
+    border-radius: 10px;
+
+    transition: 0.2s;
+}
+
+.input-group input:focus {
+    background: white;
+    border-color: #6d4afe;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(109, 74, 254, 0.20);
+}
+
+input.error {
+    border: 1px solid rgb(255, 0, 93);
+}
+
+.input-group .message {
+    height: 11px;
+    font-size: 10px;
+    color: red;
+    padding-left: 3px;
+}
+
+/* Wrapper solo para password */
+.password-wrapper {
+    position: relative;
+}
+
+/* Icono del ojito */
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    top: 55%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6d4afe;
+    padding: 0;
+}
+
+.toggle-password:hover {
+    opacity: 0.7;
+}

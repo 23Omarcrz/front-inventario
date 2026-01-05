@@ -1,0 +1,15 @@
+body {
+    font-family: "Inter", sans-serif;
+    background: #f6fafc;
+    /* background: linear-gradient(180deg, #eef2ff 0%, #f8f9ff 100%); */
+
+    /* Imagen de fondo */
+    /*background-image: url('/images/tesjo.jpeg');
+    /* Ajusta la ruta */
+    /*background-size: cover;
+    /* Hace que la imagen cubra toda la pantalla */
+    /*background-position: center;
+    /* Centra la imagen */
+    /*background-repeat: no-repeat;
+    /* Evita que se repita */
+}

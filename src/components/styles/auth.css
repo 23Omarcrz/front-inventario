@@ -1,0 +1,170 @@
+/* ============================
+   CONTENEDOR PRINCIPAL
+=============================== */
+
+.auth-page {
+    height: 96vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "Inter", sans-serif;
+}
+
+
+/* ============================
+   TARJETA
+=============================== */
+.auth-card {
+    width: 460px;
+    padding: 40px 45px;
+    border-radius: 24px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+
+/* ICONO CUADRADO */
+.auth-icon {
+    width: 68px;
+    height: 68px;
+    background: white;
+    border-radius: 18px;
+    align-content: center;
+    text-align: center;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 15px;
+}
+
+/* TITULO */
+.auth-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+/* SUBTITULO */
+.auth-subtitle {
+    color: #6d6d80;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+
+/* ============================
+   FORMULARIO
+=============================== */
+.auth-form {
+    width: 80%;
+    height: 40vh;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+    padding: 30px 50px 100px 40px;
+    border-radius: 24px;
+    background: white;
+}
+
+.auth-form p{
+    color: red;
+    height: 13px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    width: 100%;
+    
+}
+
+.form-row input{
+    font-size: 12px;
+}
+
+/* ============================
+   BLOQUE DE CONTRASEÑA
+=============================== */
+/* .password-block {
+    display: flex;
+    flex-direction: column;
+} */
+
+.forgot-link {
+    align-self: flex-end;
+    font-size: 14px;
+    color: #6d4afe;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+
+/* ============================
+   CHECKBOX
+=============================== */
+/* .checkbox-row {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+} */
+
+
+/* ============================
+   BOTÓN
+=============================== */
+.primary-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+
+    border: none;
+    border-radius: 10px;
+    background: #6d4afe;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.primary-btn:hover {
+    background: #5b3df8;
+}
+
+.button-submit-login {
+    margin-top: 33px;
+}
+
+
+/* ============================
+   FOOTER
+=============================== */
+.auth-footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #5d5d72;
+}
+
+.auth-footer a {
+    color: #6d4afe;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}

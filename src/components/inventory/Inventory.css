@@ -1,0 +1,238 @@
+/* ===========================
+   CONTENEDOR PRINCIPAL
+=========================== */
+
+.inventory-container {
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+    height: 90vh;
+}
+
+.inventory-container h2 {
+    font-size: 22px;
+    margin: -30px -28px 20px -30px;
+    color: #2c2c2c;
+    background: white;
+    padding: 10px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===========================
+   HEADER: FILTROS + ACCIONES
+=========================== */
+.inventory-header {
+    background: rgb(255, 255, 255);
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+/* ========== FILTROS ========== */
+.inventory-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.inventory-filters select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d5d9e0;
+    background: white;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+}
+
+.inventory-filters button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #f2f4f7;
+    border: 1px solid #d5d9e0;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.inventory-filters button:hover {
+    background: #e7e9ee;
+    
+}
+
+
+
+
+
+/* ========== ACCIONES ========== */
+.inventory-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.inventory-actions button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #f2f4f7;
+    border: 1px solid #d5d9e0;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+    
+}
+
+.inventory-actions button:hover {
+    background: #e7e9ee;
+}
+
+
+
+
+
+
+/* ===========================
+   TABLA
+=========================== */
+.inventory-table {
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1800px;
+    table-layout: fixed;
+    /* 🔑 ESTO ES LA CLAVE 
+    table-layout: fixed le dice al navegador: 
+    “No calcules el ancho por el contenido, usa el ancho definido”
+    */
+}
+
+.inventory-table-scroll {
+    overflow-x: auto;
+    max-height: 390px;
+    min-height: 390px;
+    overflow-y: auto;
+}
+
+.inventory-table th {
+    text-align: center;
+    font-size: 13px;
+    padding: 10px;
+    color: #4a4a4a;
+    background: #f8f9fc;
+    border-bottom: 1px solid #e3e7ee;
+}
+
+/*permite que las cabeceras de la tabla no se scrolleen*/
+.inventory-table thead th {
+    position: sticky;
+    top: 0;
+    background: #f8f9fc;
+    z-index: 10;
+}
+
+/* ====== TABLA ====== */
+.inventory-table table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    /* para permitir scroll horizontal */
+}
+
+.inventory-table td {
+    font-size: 11px;
+    padding: 10px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+.estado {
+    padding: 3px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.ubicado{
+    background: rgb(169, 223, 169);
+}
+
+.perdido {
+    background: rgb(237, 167, 151);
+}
+
+.traspaso {
+    background: rgb(160, 211, 248);
+}
+
+.baja {
+    background: rgb(211, 211, 211);
+}
+
+/* Acciones */
+.inventory-table td button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #d5d9e0;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+/* Contenedor para los botones de acciones */
+.acciones-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    /* separación entre botones */
+    white-space: nowrap;
+    /* evitar que hagan salto */
+}
+
+/* Evitar que los botones se expandan verticalmente */
+.acciones-buttons button {
+    display: inline-flex;
+    white-space: nowrap;
+}
+
+.inventory-table td button:hover {
+    background: #ececec;
+}
+
+/* ===========================
+   PAGINACIÓN
+=========================== */
+.pagination {
+    margin-top: 12px;
+    display: flex;
+    gap: 6px;
+    justify-content:flex-start;
+}
+
+.pagination button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #d5d9e0;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.pagination button:hover {
+    background: #ececec;
+}

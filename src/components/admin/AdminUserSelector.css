@@ -1,0 +1,188 @@
+
+.container {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.card {
+  text-align: center;
+  padding: 20px;
+  height: 60vh;
+  /*background-color: white;*/
+  border-radius: 5px;
+  /*box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);*/
+  
+
+  /* 👇 Esto centra cualquier div hijo */
+  display: flex;
+  justify-content: center;
+  /* Horizontal */
+  align-items: center;
+  /* Vertical */
+}
+
+.card-select{
+  padding: 20px 0px 20px 0px;
+  width: 60%;
+  height: 90%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.card-select input{
+  width: 90%;
+  max-width: 90%;
+  box-sizing: border-box;
+    /* MUY IMPORTANTE */
+    /*evita que un elemento salga de su contenedor*/
+}
+
+.card-select p{
+  color: #aaadb2;
+  font-size: 13px;
+}
+
+.nav-admin {
+    font-size: 22px;
+      margin: -10px 0px 20px -10px;
+      color: #2c2c2c;
+      background: white;
+      padding: 10px;
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-button {
+    width: 120px;
+    margin-top: 20px;
+    padding: 8px;
+
+    border: none;
+    border-radius: 10px;
+    background: #4c4a52;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.admin-button:hover {
+  background: #322f3d;
+}
+
+.action {
+  width: 100%;
+  max-width: 100%;
+  height: 40%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* o 'flex-end' si los quieres a la derecha */
+  gap: 20px;
+  /* espacio entre los botones */
+  margin-top: 20px;
+  /* espacio desde el card */
+}
+
+.button-action{
+  width: 120px;
+  background: rgb(241, 237, 237);
+  color: #322f3d;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.button-action:hover {
+  background: rgb(214, 212, 212);
+  font-size: 13px;
+}
+
+.dynamic-select {
+  position: relative;
+  width: 80%;      /* igual que el input de la imagen */
+  margin: 0 auto;
+}
+
+.select-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  background: #fff;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  outline: none;
+  color: #1e293b;
+  transition: 0.2s;
+  
+}
+
+.select-input::placeholder {
+  color: #94a3b8;
+}
+
+.select-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* MENÚ DESPLEGABLE */
+.dropdown {
+  position: absolute;
+  top: 55px;
+  width: 100%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  max-height: 230px;
+  overflow-y: auto;
+  z-index: 50;
+  text-align: left;
+}
+
+/* ITEMS */
+.dropdown-item {
+  padding: 12px 18px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 6px;
+  transition: 0.15s;
+}
+
+.dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.dropdown-item strong {
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.dropdown-item span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* NO RESULTADOS */
+.no-results {
+  padding: 12px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* SCROLL SUAVE */
+.dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
