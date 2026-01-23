@@ -8,6 +8,7 @@ import dataFromApi from "../../api/axiosClient";
 import "../styles/auth.css";
 import AdminContext from "../../context/AdminContext";
 import normalizeError from "../../api/normalizeError";
+import { Link } from "react-router-dom";
 
 const initialForm = {
     username: "",
@@ -17,9 +18,8 @@ const initialForm = {
 export default function LoginPage() {
     const navigate = useNavigate();
     const {setAdmin} = useContext(AdminContext);
-    const [error, setError] = useState({});
-
     const [form, setForm] = useState(initialForm); 
+    const [error, setError] = useState({});
 
     //detecta los cambios dentro de un campo y asigna los valores a su respectiva variable
     const handleChange = (e) => {
@@ -29,10 +29,10 @@ export default function LoginPage() {
         });
     }
 
-    //hace una peticion para el login
+    //hace una petición para el login
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //que los campos no esten vacios
+        //que los campos no estén vacios
 
         if(!validateInput()) return;
 
@@ -43,31 +43,19 @@ export default function LoginPage() {
             const endpoint = "/login";
             const result = await dataFromApi("post", url, endpoint, form)
             if(result.status === 200) {
-                //LOGIN EXITOSO
-                console.log(result.data)
                 setAdmin(result.data.adminData);
                 if (result.data.adminData) {
                     localStorage.setItem('admin', JSON.stringify(result.data.adminData));//Guardar datos en localStorage
                 } 
-                /* por ejemplo
-                        {
-                            id_admin: 1,
-                            nombre: "Juan",
-                            apellidos: "Pérez",
-                            usernameAdmin: "juan123"
-                        }
-                            convierte ese objeto en una cadena de texto (string) en formato JSON:
-                            '{"id_admin":1,"nombre":"Juan","apellidos":"Pérez","usernameAdmin":"juan123"}'
-                */
+                setError({});
+                handleReset();
                 navigate("/dashboard");
             }
-
-            handleReset();
         } catch (error) {
             const err = normalizeError(error);
-            if(err.type === "NETWORK") alert(err.message)
-            if(err.type === "SERVER") alert(err.message)
-            if(err.type === "AUTH") setError({form: err.message})
+            if(err.type === "NETWORK") return alert(err.message);
+            if(err.type === "SERVER") return alert(err.message);
+            if(err.type === "AUTH") return setError({inputError: err.message});
         }
         
     }
@@ -83,7 +71,7 @@ export default function LoginPage() {
         }
 
         if(Object.keys(newErrors).length > 0) {
-            newErrors.form = "Todos los campos son obligatorios";
+            newErrors.inputError = "Todos los campos son obligatorios";
             setError(newErrors);
             return false;
         }
@@ -107,33 +95,30 @@ export default function LoginPage() {
             >
                 <form className="auth-form" onSubmit={handleSubmit}>
 
-                    <TextInput
-                        label="Usuario *"
-                        type="text"
-                        name="username"
-                        placeholder="Tesjo2025"
-                        value={form.username} onChange={handleChange}
+                    <div className="form-datos">
+                    <TextInput 
+                        label="Usuario *" 
+                        type="text" name="username" 
+                        placeholder="Tesjo2025" 
+                        value={form.username} 
+                        onChange={handleChange} 
                         error={error.username}
+                        /* required */
                     />
 
-
-                        <TextInput
-                            label="Contraseña *"
-                            type="password"
-                            name="password"
-                            value={form.password} onChange={handleChange}
-                            error={error.password}
-                        />
-                        {/* <a href="#" className="forgot-link">
-                            ¿Olvidaste tu contraseña?
-                        </a> */}
-                        {error.form ? <p>{error.form}</p> : <p></p>}
+                    <TextInput 
+                        label="Contraseña *" 
+                        type="password" name="password" 
+                        value={form.password} 
+                        onChange={handleChange} 
+                        error={error.password} /* required */
+                    />
                     
+                    <Link to="/forgot-password" className="forgot-link">¿Olvidaste tu contraseña?</Link>
+                    {<p className="login-error">{error.inputError}</p>}
+                    {/* {error.inputError ? <p className="login-error">{error.inputError}</p> : <p className="login"></p>} */}
 
-                    {/* <div className="checkbox-row">
-                        <input id="remember" type="checkbox" />
-                        <label htmlFor="remember">Recordarme</label>
-                    </div> */}
+                    </div>
 
                     <div className="button-submit-login">
                         <PrimaryButton type="submit">
@@ -143,10 +128,7 @@ export default function LoginPage() {
 
                 </form>
 
-                <AuthFooter
-                    text="¿No tienes una cuenta?"
-                    linkText="Crear Cuenta"
-                    linkHref="/register"
+                <AuthFooter text="¿No tienes una cuenta?" linkText="Crear Cuenta" linkHref="/register"
                 />
 
             </AuthCard>

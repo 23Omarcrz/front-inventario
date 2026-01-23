@@ -12,4 +12,8 @@ body {
     /* Centra la imagen */
     /*background-repeat: no-repeat;
     /* Evita que se repita */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Hace que el padding y border no aumenten el tamaño del elemento */
 }

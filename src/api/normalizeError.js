@@ -42,7 +42,6 @@ export default function normalizeError(error) {
                 type: "VALIDATION",
                 message: data.message || "Datos no validos"
             };
-            
         
         case 401:
             return {
@@ -51,47 +50,47 @@ export default function normalizeError(error) {
             };
 
         case 409:
-            const conflictMessages = {
-                EMAIL_DUPLICATED: {
+            const conflictDuplicate = {
+                DUPLICATE_EMAIL: {
                     field: "email",
                     message: "El correo ya está registrado", 
                 },
-                USERNAME_DUPLICATED: {
+                DUPLICATE_USERNAME: {
                     field: "username",
                     message:"El nombre de usuario ya existe"
                 },
-                CATEGORY_DUPLICATED: {
-                    field: "categoria",
-                    message: "La categoría ya existe"
-                },
-                PRODUCT_DUPLICATED: {
+                DUPLICATE_ARTICLE: {
                     field: "articulo",
                     message: "El artículo ya existe"
                 },
-                CATEGORY_DUPLICATED: {
+                DUPLICATE_CATEGORY: {
                     field: "nombre_categoria",
-                    message: "La categoria ya existe"
+                    message: "La categoría ya existe"
+                },
+                DUPLICATE_USER: {
+                    field: "usuario",
+                    message: "El usuario ya existe para este administrador"
                 }
             };
 
-            const duplicated = conflictMessages[data.code];
-            if(duplicated) {
+            const duplicate = conflictDuplicate[data.code];
+            if(duplicate) {
                 return {
                     type: "ER_DUP_ENTRY",
                     errors: {
-                        [duplicated.field]: duplicated.message
+                        [duplicate.field]: duplicate.message
                     }
                 };
             }
             return {
-                type: "VALIDATION",
+                type: "ER_DUP_ENTRY",
                 message: "El registro ya existe"
             };
         
         case 500:
             return {
                 type: "SERVER",
-                message: data.message || "Error interno del servidor"
+                message: data.message || "Error interno del servidor, intenta más tarde"
             };
 
         default:

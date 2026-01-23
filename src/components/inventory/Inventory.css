@@ -5,7 +5,7 @@
 .inventory-container {
     padding: 20px;
     font-family: "Segoe UI", sans-serif;
-    height: 90vh;
+    height: 85vh;
 }
 
 .inventory-container h2 {
@@ -22,19 +22,48 @@
 =========================== */
 .inventory-header {
     background: rgb(255, 255, 255);
-    padding: 5px 10px 5px 10px;
+    padding: 1px 10px 5px 10px;
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .inventory-header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    /* ⬇️ AÑADIR */
+        flex-wrap: wrap;
+        gap: 12px;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    margin: -5px 0px -5px 0px;
+}
+
+.header h3{
+    margin-left: 10px;
+}
+
+.regresar {
+    background: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.regresar img{
+    height: 20px;
+    padding: 5px 5px 0px 5px;
+}   
+
+.regresar:hover{
+    background: rgb(240, 240, 240);
+}
 
 /* ========== FILTROS ========== */
 .inventory-filters {
@@ -53,20 +82,21 @@
     cursor: pointer;
 }
 
-.inventory-filters button {
+.button-filters {
     padding: 8px 14px;
     border-radius: 6px;
-    background: #f2f4f7;
+    background: #f3fbff;
     border: 1px solid #d5d9e0;
     cursor: pointer;
     font-size: 13px;
     transition: 0.2s;
 }
 
-.inventory-filters button:hover {
-    background: #e7e9ee;
-    
+.button-filters:hover {
+    background: #e0f3fb;
 }
+
+
 
 
 
@@ -78,19 +108,18 @@
     gap: 12px;
 }
 
-.inventory-actions button {
+.button-actions {
     padding: 8px 14px;
     border-radius: 6px;
-    background: #f2f4f7;
+    background: #f3fbff;
     border: 1px solid #d5d9e0;
     cursor: pointer;
     font-size: 13px;
     transition: 0.2s;
-    
 }
 
-.inventory-actions button:hover {
-    background: #e7e9ee;
+.button-actions:hover {
+    background: #e0f3fb;
 }
 
 
@@ -99,19 +128,19 @@
 
 
 /* ===========================
-   TABLA
+TABLA
 =========================== */
 .inventory-table {
     background: white;
     padding: 18px;
     border-radius: 8px;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .inventory-table table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1800px;
+    min-width: 1900px;
     table-layout: fixed;
     /* 🔑 ESTO ES LA CLAVE 
     table-layout: fixed le dice al navegador: 
@@ -151,18 +180,55 @@
     /* para permitir scroll horizontal */
 }
 
+.clamp {
+    /*white-space: nowrap;evita que el texto haga wrap o salto de linea*/
+    /*o para controlar la cantidad de saltos de linea se hace lo siguiente*/
+    display: -webkit-box; /*necesario para line-clamp*/
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /*numero de lineas que quieres mostrar*/
+    overflow: hidden;/*corta el contenido que se salga del contenedor*/
+    /*text-overflow: ellipsis;/*pone "..." si no cabe*/
+}
+
+/* .tooltip-text {
+    visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  padding: 5px 8px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 100;
+  bottom: 45%;  aparece arriba del td 
+  left: 20%;
+  transform: translateX(-50%);
+  white-space: normal;
+  max-width: 300px;  ancho máximo del tooltip 
+  opacity: 0;
+  transition: opacity 0.2s;
+  }
+  
+  .inventory-table td:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    } */
+    
 .inventory-table td {
+    height: 43px;
     font-size: 11px;
     padding: 10px;
     color: #333;
     border-bottom: 1px solid #f0f0f0;
     text-align: center;
 }
-
+    
+    
 .estado {
     padding: 3px;
+    width: 50px;
     border-radius: 6px;
     text-align: center;
+    margin: auto;
 }
 
 .ubicado{
@@ -182,7 +248,7 @@
 }
 
 /* Acciones */
-.inventory-table td button {
+.button-table {
     padding: 6px 10px;
     border-radius: 6px;
     border: 1px solid #d5d9e0;
@@ -204,17 +270,17 @@
 }
 
 /* Evitar que los botones se expandan verticalmente */
-.acciones-buttons button {
+.acciones-buttons .button-table {
     display: inline-flex;
     white-space: nowrap;
 }
 
-.inventory-table td button:hover {
+.button-table:hover {
     background: #ececec;
 }
 
 /* ===========================
-   PAGINACIÓN
+PAGINACIÓN
 =========================== */
 .pagination {
     margin-top: 12px;
@@ -223,16 +289,85 @@
     justify-content:flex-start;
 }
 
-.pagination button {
+.button-pagination {
     padding: 6px 12px;
     border-radius: 6px;
     border: 1px solid #d5d9e0;
     background: #f7f7f7;
-    cursor: pointer;
     font-size: 12px;
     transition: 0.2s;
 }
 
-.pagination button:hover {
-    background: #ececec;
+.pagination .enable {
+    cursor: pointer;
 }
+
+.pagination .enable:hover {
+    background: #d3ecf4;
+}
+
+.pagination .active {
+    transform: scale(1.2);
+    background: #38a6bf;
+    color: white;
+}
+
+.pagination .active:hover{
+    background: #3db6d1;
+}
+
+
+/*Inventory search*/
+.inventory-search {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-width: 280px;
+}
+
+.inventory-search input {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+
+
+/* Estilos para pantallas de 820px de ancho o menos */
+@media (max-width: 1024px) {
+    .inventory-table-scroll {
+        max-height: 900px;
+        min-height: 900px;
+    }
+}
+
+@media (max-width: 820px) {
+    .inventory-table-scroll {
+        max-height: 700px;
+        min-height: 700px;
+    }
+}
+
+ @media (max-width: 768px) {
+    .inventory-header-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .inventory-search {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .inventory-search input {
+        max-width: 100%;
+    }
+    .inventory-table-scroll {
+        max-height: 500px;
+        min-height: 500px;
+    }
+}
+

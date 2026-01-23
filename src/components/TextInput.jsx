@@ -17,7 +17,7 @@ export default function TextInput({label, error, type, ...props }) {
       <div className={isPassword ? "password-wrapper" : ""}>
         <input
           type={inputType}
-          className={error ? "error" : ""}
+          className={error ? "error-component-input" : ""}
           {...props}
         />
 

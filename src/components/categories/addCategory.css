@@ -23,6 +23,14 @@
     justify-content: center;
 }
 
+.message-add-category {
+    height: 13px;
+    font-size: 13px;
+    text-align: center;
+    margin-top: -20px;
+    color: #2e7d32;
+}
+
 .button-add-category {
     padding: 5px 10px;
     background: #ffffff;

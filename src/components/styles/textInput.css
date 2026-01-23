@@ -31,7 +31,7 @@
     box-shadow: 0 0 0 3px rgba(109, 74, 254, 0.20);
 }
 
-input.error {
+input.error-component-input {
     border: 1px solid rgb(255, 0, 93);
 }
 

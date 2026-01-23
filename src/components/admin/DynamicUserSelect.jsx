@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import UsersContext from "../../context/UsersContext";
+import { useState, useEffect, useRef} from "react";
 
-export default function DynamicUserSelect({ users, onSelect }) {
+export default function DynamicUserSelect({ users, onSelect, onDeleteUser }) {
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const [selectedUser, setSelectedUser] = useState()
+  const [selectedUser, setSelectedUser] = useState();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,9 +38,7 @@ export default function DynamicUserSelect({ users, onSelect }) {
       u.email.toLowerCase().includes(value.toLowerCase()) ||
       u.id.toString().includes(value) */
       u.nombre.toLowerCase().includes(value.toLowerCase()) ||
-      u.apellidos.toLowerCase().includes(value.toLowerCase()) ||
-      u.area.toLowerCase().includes(value.toLowerCase()) ||
-      u.id_usuario.toString().includes(value)
+      u.apellidos.toLowerCase().includes(value.toLowerCase())
     );
 
     setFiltered(results);
@@ -51,18 +49,19 @@ export default function DynamicUserSelect({ users, onSelect }) {
     e.preventDefault();
     //que los campos no esten vacios
     if (!query.trim()) {
-      alert("Selecciona un usuario");
+      setError("Selecciona un usuario");
       return;
     }
 
     if (!selectedUser) {
-      alert("El usuario no existe");
+      setError("El usuario no existe");
       return;
     }
 
     onSelect(selectedUser);        // Devuelve el usuario al padre
+    setError(null);
     handleReset();
-  }
+  };
 
   const handleSelect = (user) => {
     setQuery(`${user.nombre} ${user.apellidos}`);   // Muestra el nombre en el input
@@ -72,7 +71,7 @@ export default function DynamicUserSelect({ users, onSelect }) {
 
   const handleReset = () => {
     setQuery("");
-  }
+  };
 
   return (
     <div className="dynamic-select" ref={ref}>
@@ -84,6 +83,7 @@ export default function DynamicUserSelect({ users, onSelect }) {
           onChange={handleChange}
           className="select-input"
         />
+        <p className="error-select-user">{error}</p>
         <button type="submit" className="admin-button">Aceptar</button>
       </form>
 

@@ -7,6 +7,7 @@ export const InventoryPagination = ({paginaActual, totalPaginas, onChange}) => {
   return (
     <div className="pagination">
       <button
+        className={(paginaActual === 1 || totalPaginas === 0) ? "button-pagination" : "button-pagination enable"}
         disabled={paginaActual === 1 || totalPaginas === 0}
         onClick={() => onChange(paginaActual - 1)}
       >
@@ -16,7 +17,7 @@ export const InventoryPagination = ({paginaActual, totalPaginas, onChange}) => {
       {pages.map(p => (
         <button
           key={p}
-          className={p === paginaActual ? "active" : ""}
+          className={p === paginaActual ? "button-pagination enable active" : "button-pagination enable"}
           onClick={() => onChange(p)}
         >
           {p}
@@ -24,6 +25,7 @@ export const InventoryPagination = ({paginaActual, totalPaginas, onChange}) => {
       ))}
 
       <button
+        className={paginaActual === totalPaginas || totalPaginas === 0 ? "button-pagination" : "button-pagination enable"}
         disabled={paginaActual === totalPaginas || totalPaginas === 0}
         onClick={() => onChange(paginaActual + 1)}
       >

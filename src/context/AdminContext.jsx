@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import dataFromApi from "../api/axiosClient";
 
 const AdminContext = createContext();
 
@@ -7,6 +8,7 @@ const AdminProvider = ({ children }) => {
         const storedAdmin = localStorage.getItem('admin');
         return storedAdmin ? JSON.parse(storedAdmin) : null;
     });
+
 
     /* 
         localStorage.getItem('admin') devuelve el string que guardaste, por ejemplo:
@@ -23,6 +25,21 @@ const AdminProvider = ({ children }) => {
 
         Si storedAdmin es null, el ternario devuelve null.
     */
+
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                const res = await dataFromApi("get", "auth", "/session")
+                setAdmin(res.data.adminData);
+                localStorage.setItem("admin", JSON.stringify(res.data.adminData));
+            } catch (error) {
+                setAdmin(null);
+                localStorage.removeItem("admin"); // ✅ CLAVE
+            }
+        }
+
+        checkSession()
+    }, [])
 
     const data = {admin, setAdmin};
 

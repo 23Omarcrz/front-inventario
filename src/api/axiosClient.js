@@ -1,14 +1,11 @@
-import axios from 'axios';
+import api from './axiosInstance'; // el archivo anterior
 
 const dataFromApi = async (method, url, endpoint = "", body) => {
     try {
-        const response = await axios({
-            url: `/api/${url}${endpoint}`,
+        const response = await api({
+            url: `${url}${endpoint}`,
             method,
             data: body,
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            withCredentials: true,
-            timeout: 15000
         });
         return response;
     } catch (err) {

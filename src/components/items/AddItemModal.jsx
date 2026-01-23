@@ -1,6 +1,7 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState} from "react";
 import "./AddItemModal.css";
 import UsersContext from "../../context/UsersContext";
+import AddItemErrors from "./AddItemErrors";
 
 const initialForm = {
   no_inventario: "",
@@ -20,10 +21,12 @@ const initialForm = {
   estatus: ""
 }
 
-const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
+const AddItemModal = ({ onClose, addItem, updateItem, selectedCategory, backendErrors, setBackendErrors}) => {
   const [form, setForm] = useState(initialForm); 
   const {validUser} = useContext(UsersContext);
   const [error, setError] = useState({});
+  const [message, setMessage] = useState(null);
+  const {editData, setEditData} = useContext(UsersContext);
 
   const handleChange = (e) => {
       setForm({
@@ -32,13 +35,30 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
       });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //que los campos no esten vacios
-    if (!validateInput()) {
-        alert(error.form);
-        return;
+    setBackendErrors([]);
+    setError({});
+    setMessage(null);
+
+    if (editData) {
+      const editar = {
+        ...form,
+        valor: form.valor === "" ? "" : Number(form.valor)
+      }
+      
+      const id_articulo = editData.id_articulo
+      const response = await updateItem(editar, id_articulo);
+      if(response === 204) {
+        setMessage("Datos actualizados")
+        setError({})
+        handleReset();
+      }
+      return;
     }
+
+    //que los campos no esten vacios
+    if (!validateInput()) return;
 
     const insertar = {
       ...form,
@@ -46,13 +66,12 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
       valor: form.valor === "" ? "" : Number(form.valor)
     }
 
-    //elimina todos los campos con ""
-    const cleanForm = Object.fromEntries(
-      Object.entries(insertar).filter(([_, value]) => value !== "")
-    );
-
-    addItem(cleanForm);
-    handleReset();
+    const response = await addItem(insertar);
+    if(response === 201) {
+      setMessage("Artículo agregado")
+      setError({})
+      handleReset();
+    }
   }
 
   const validateInput = () => {
@@ -69,9 +88,9 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
         }
 
         if(Object.keys(newErrors).length > 0) {
-            newErrors.form = "Todos los campos son obligatorios";
-            setError(newErrors);
-            return false;
+          newErrors.form = "Todos los campos son obligatorios";
+          setError(newErrors);
+          return false;
         }
 
         setError({});
@@ -86,12 +105,22 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
     <div className="modal-background">
       <div className="modal-card">
 
-        <h3>Agregar Nuevo Artículo de Inventario</h3>
+        <h3>{editData ? "Editar Artículo de Inventario" : "Agregar Nuevo Artículo de Inventario"}</h3>
+
+          {backendErrors.length > 0 && (
+            <AddItemErrors backendErrors={backendErrors}></AddItemErrors>
+          )}
+          
+          {<div><p className={ Object.keys(error).length === 0 ? "message-success" : "add-item-error"}>
+            {message ?? (Object.keys(error).length === 0 ? "" : "Llene los campos obligatorios")}
+          </p></div>}
+          {/* {Object.keys(error).length === 0 ? (<div><p className="add-item-error"></p></div>) : (<div><p className="add-item-error">Llene los campos obligatorios</p></div>)} */}
+          {/* {message && <div><p className="message-success">{message}</p></div>} */}
 
         <form className="modal-form" onSubmit={handleSubmit}>
 
           <div className="row">
-            <input type="text" className={error.no_inventario ? "error" : ""} placeholder="No_Inventario *" name="no_inventario" value={form.no_inventario} onChange={handleChange}/>
+            <input type="text" className={error.no_inventario ? "error-add-item" : ""} placeholder="No_Inventario *" name="no_inventario" value={form.no_inventario} onChange={handleChange}/>
             <input type="text" placeholder="Usuario *" name="usuario" value={`${validUser.nombre} ${validUser.apellidos}`} disabled/>
           </div>
 
@@ -100,18 +129,18 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
             <input type="text" placeholder="Marca" name="marca" value={form.marca} onChange={handleChange}/>
           </div>
 
-          <textarea className={error.descripcion ? "error" : ""} placeholder="Descripción / Características *" name="descripcion" value={form.descripcion} onChange={handleChange}/>
+          <textarea className={error.descripcion ? "error-add-item" : ""} placeholder="Descripción / Características *" name="descripcion" value={form.descripcion} onChange={handleChange} maxLength={150}/>
 
           <div className="row">
             <input type="text" placeholder="Fabricante / Proveedor" name="fabricante" value={form.fabricante} onChange={handleChange}/>
             <input type="number" placeholder="Valor" name="valor" value={form.valor} onChange={handleChange}/>
           </div>
 
-          <textarea placeholder="Observaciones" name="observaciones" value={form.observaciones} onChange={handleChange}/>
+          <textarea placeholder="Observaciones" name="observaciones" value={form.observaciones} onChange={handleChange} maxLength={150}/>
 
           <div className="row">
-            <label htmlFor="F_Adquisicion">Fecha de Adquisicion</label>
-            <label htmlFor="F_Asignacion">Fecha de Asignacion</label>
+            <label>Fecha de Adquisición</label>
+            <label>Fecha de Asignación</label>
           </div>
 
           <div className="row">
@@ -120,8 +149,13 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
           </div>
 
           <div className="row">
-            <input type="text" className={error.ubicacion ? "error" : ""} placeholder="Ubicación *" name="ubicacion" value={form.ubicacion} onChange={handleChange}/>
+            <input type="text" className={error.ubicacion ? "error-add-item" : ""} placeholder="Ubicación *" name="ubicacion" value={form.ubicacion} onChange={handleChange}/>
             <input type="text" placeholder="Resguardatario" name="resguardatario" value={form.resguardatario} onChange={handleChange}/>
+          </div>
+
+          <div className="row">
+            <label></label>
+            <label>Fecha de última revisión</label>
           </div>
 
           <div className="row">
@@ -131,7 +165,7 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
 
           <div className="row">
             <input type="text" placeholder="No. Oficio de Traspaso" name="no_oficio_traspaso" value={form.no_oficio_traspaso} onChange={handleChange}/>
-            <select name="estatus" onChange={handleChange} defaultValue="">
+            <select name="estatus" value={form.estatus} onChange={handleChange}>
               <option value="">Selecciona estatus</option>
               <option value="Ubicado">Ubicado</option>
               <option value="Traspaso">Traspaso</option>
@@ -141,8 +175,12 @@ const AddItemModal = ({ onClose, addItem, selectedCategory}) => {
           </div>
 
           <div className="actions">
-            <button type="button" onClick={onClose}>Cancelar</button>
-            <button type="submit">Agregar Artículo</button>
+            <button className="button-modal-actions" type="button" onClick={() => {
+              setEditData(null);
+              setBackendErrors([]);
+              onClose();
+            }}>Cancelar</button>
+            <button className="button-modal-actions" type="submit">{editData ? "Editar Artículo" : "Agregar Artículo"}</button>
           </div>
 
         </form>

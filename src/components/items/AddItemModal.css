@@ -62,8 +62,20 @@
     margin-bottom: -10px;
 }
 
-.modal-form .error{
-    border: 1px solid red;
+.modal-form .error-add-item{
+    border: 1px solid #d32f2f;
+}
+
+.add-item-error {
+    min-height: 20px;
+    color: #d32f2f;
+    font-size: 14px;
+}
+
+.message-success {
+    min-height: 20px;
+    color: #2e7d32;
+    font-size: 14px;
 }
 
 .modal-form textarea {
@@ -79,7 +91,7 @@
     margin-top: 25px;
 }
 
-.actions button {
+.button-modal-actions {
     padding: 7px 18px;
     border-radius: 6px;
     font-size: 14px;
@@ -87,11 +99,11 @@
     border: none;
 }
 
-.actions button:first-child {
+.button-modal-actions:first-child {
     background: #e5e5e5;
 }
 
-.actions button:last-child {
+.button-modal-actions:last-child {
     background: #111827;
     color: white;
 }

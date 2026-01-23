@@ -4,7 +4,6 @@ export default function AuthCard({ title, subtitle, children, icon}) {
 
             <div className="icon-wrapper">
                 <div className="auth-icon">
-                    {/* AQUI va tu icono: */}
                     {<img src={icon} className="icon"/> } 
                 </div>
             </div>

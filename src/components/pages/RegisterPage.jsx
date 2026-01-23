@@ -17,9 +17,8 @@ const initialForm = {
 
 export default function RegisterPage() {
     const [form, setForm] = useState(initialForm);
-    const [existEmail, setExistEmail] = useState(null);
-    const [existUsername, setExistUsername] = useState(null);
     const [error, setError] = useState({});
+    const [message, setMessage] = useState(null);
 
     //detecta los cambios dentro de un campo y asigna los valores a su respectiva variable
     const handleChange = (e) => {
@@ -29,7 +28,7 @@ export default function RegisterPage() {
         });
     }
 
-    //hace una peticion para agregar un nuevo admin
+    //hace una petición para agregar un nuevo admin
     const handleSubmit = async (e) => {
         e.preventDefault();
         //que los campos no esten vacios
@@ -41,13 +40,16 @@ export default function RegisterPage() {
             let url = 'auth';
             const endpoint = "/register";
             const result = await dataFromApi("post", url, endpoint, form);
-            console.log(result.data.message)
+            if (result.status === 201);
+            setMessage(result.data.message);
+            setError({});
             handleReset();
         } catch (error) {
+            setMessage(null);
             const err = normalizeError(error);
-            if(err.type === "NETWORK") return alert(err.message)
-            if(err.type === "SERVER") return setError(err.message)
-            if(err.type === "VALIDATION" || err.type === "ER_DUP_ENTRY") return setError(err.errors)
+            if(err.type === "NETWORK") return alert(err.message);
+            if(err.type === "SERVER") return alert(err.message);
+            if(err.type === "VALIDATION" || err.type === "ER_DUP_ENTRY") return setError(err.errors);
         }
     }
 
@@ -71,7 +73,7 @@ export default function RegisterPage() {
         }
 
         if(Object.keys(newErrors).length > 0) {
-            newErrors.form = "Todos los campos son obligatorios";
+            newErrors.inputError = "Todos los campos son obligatorios";
             setError(newErrors);
             return false;
         }
@@ -80,14 +82,13 @@ export default function RegisterPage() {
         return true;
     }
 
-
     //limpia los campos despues de cada submit
     const handleReset = (e) => {
         setForm(initialForm)
     }
 
     return (
-        <div className="auth-page">
+        <div className="auth-page">       
 
             <AuthCard
                 title="Crear Cuenta"
@@ -95,51 +96,32 @@ export default function RegisterPage() {
                 icon="/images/OIP.jpeg"
             >
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    <div className="form-row">
-                        <TextInput
-                            label="Nombre *"
-                            type="text"
-                            name="nombre"
-                            value={form.nombre} onChange={handleChange}
-                            error={error.nombre}
-                        />
-                        <TextInput
-                            label="Apellidos *"
-                            type="text"
-                            name="apellidos"
-                            value={form.apellidos} onChange={handleChange}
-                            error={error.apellidos}
-                        />
-                    </div>
+                    <div className="form-datos">
 
-                    <div className="form-row">
-                        <TextInput
-                            label="Correo Electrónico *"
-                            type="email"
-                            name="email"
-                            value={form.email} onChange={handleChange}
-                            error={error.email}
-                        />
+                        <div className="form-row">
+                            <TextInput 
+                            label="Nombre *" 
+                            type="text" name="nombre" 
+                            value={form.nombre} 
+                            onChange={handleChange} 
+                            error={error.nombre}/>
+                            <TextInput label="Apellidos *" type="text" name="apellidos" value={form.apellidos} onChange={handleChange} error={error.apellidos}/>
+                        </div>
 
-                        <TextInput
-                            label="Nombre de Usuario *"
-                            type="text"
-                            name="username"
-                            value={form.username} onChange={handleChange}
-                            error={error.username}
-                        />
+                        <div className="form-row">
+                            <TextInput label="Correo Electrónico *" type="email" name="email" value={form.email} onChange={handleChange} error={error.email}/>
+
+                            <TextInput label="Nombre de Usuario *" type="text" name="username" value={form.username} onChange={handleChange} error={error.username}/>
+                        </div>
+                        
+                        <div className="form-row">
+                            <TextInput label="Contraseña *" type="password" name="password" value={form.password} onChange={handleChange}  error={error.password}/>
+                        </div>
+
+                        {<p className={`register-message ${error.inputError ? "register-error" : "register-success"}` }>
+                            {message ?? error.inputError}
+                        </p>}
                     </div>
-                    
-                    <div className="form-row">
-                        <TextInput
-                            label="Contraseña *"
-                            type="password"
-                            name="password"
-                            value={form.password} onChange={handleChange} 
-                            error={error.password}
-                        />
-                    </div>
-                    {/* {error.form ? <p>{error.form}</p> : <p></p>} */}
 
                     <div className="button-submit-register">
                         <PrimaryButton type="submit">
@@ -149,11 +131,7 @@ export default function RegisterPage() {
 
                 </form>
 
-                <AuthFooter
-                    text="¿Ya tienes una cuenta?"
-                    linkText="Iniciar sesión"
-                    linkHref="/login"
-                />
+                <AuthFooter text="¿Ya tienes una cuenta?" linkText="Iniciar sesión" linkHref="/login"/>
 
             </AuthCard>
 
