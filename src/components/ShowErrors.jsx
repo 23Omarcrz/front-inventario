@@ -1,4 +1,4 @@
-import "./styles/ShowErrors.css"
+import "./styles/showErrors.css"
 
 const ErrorsModal = ({ response, setErrors, onClose }) => {
   const errors = response.data
