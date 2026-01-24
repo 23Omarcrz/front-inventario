@@ -1,4 +1,4 @@
-import "./inventory.css";
+import "./Inventory.css";
 
 const InventorySearch = ({ value, onChange }) => {
   return (
