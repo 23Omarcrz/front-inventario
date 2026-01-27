@@ -180,14 +180,40 @@ TABLA
     /* para permitir scroll horizontal */
 }
 
+.cell {
+    position: relative;
+}
+
 .clamp {
-    /*white-space: nowrap;evita que el texto haga wrap o salto de linea*/
-    /*o para controlar la cantidad de saltos de linea se hace lo siguiente*/
-    display: -webkit-box; /*necesario para line-clamp*/
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* o las líneas que quieras */
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /*numero de lineas que quieres mostrar*/
-    overflow: hidden;/*corta el contenido que se salga del contenedor*/
-    /*text-overflow: ellipsis;/*pone "..." si no cabe*/
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    max-width: 300px;
+    background: #41424f;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+
+    display: none;
+    z-index: 1000;
+
+    /* ESTO ES CLAVE */
+    user-select: text;
+    white-space: normal;
+}
+
+.cell:hover .tooltip {
+    display: block;
 }
 
 /* .tooltip-text {
@@ -333,7 +359,6 @@ PAGINACIÓN
     border: 1px solid #ccc;
     font-size: 14px;
 }
-
 
 
 /* Estilos para pantallas de 820px de ancho o menos */

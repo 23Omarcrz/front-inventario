@@ -59,10 +59,13 @@ const InventoryTable = ({datos, onAddItem, onDeleteItem}) => {
                     <td><div className='clamp'>{el.usuario}</div></td>
                     <td><div className='clamp'>{el.no_serie}</div></td>
                     <td><div className='clamp'>{el.marca}</div></td>
-                    <td><div className='clamp'>{el.descripcion}</div></td>
-                    <td><div className='clamp'>{el.fabricante}</div></td>
-                    <td><div className='clamp'>{el.observaciones}</div></td>
-                    <td><div className='clamp'>${el.valor}</div></td>
+                    <td className='cell'><div className='clamp'>{el.descripcion}</div> <div className='tooltip'>{el.descripcion}</div></td>
+                    <td className='cell'><div className='clamp'>{el.fabricante}</div> <div className='tooltip'>{el.fabricante}</div></td>
+                    <td className='cell'><div className='clamp'>{el.observaciones}</div> <div className='tooltip'>{el.observaciones}</div></td>
+                    <td><div className='clamp'>${Number(el.valor).toLocaleString("es-MX", {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}</div></td>
                     <td><div className='clamp'>{el.fecha_adquisicion}</div></td>
                     <td><div className='clamp'>{el.fecha_asignacion}</div></td>
                     <td><div className='clamp'>{el.ubicacion}</div></td> 
@@ -70,11 +73,12 @@ const InventoryTable = ({datos, onAddItem, onDeleteItem}) => {
                     <td><div className='clamp'>{el.no_interno_DCC}</div></td>
                     <td><div className='clamp'>{el.fecha_ultima_revision}</div></td>
                     <td><div className='clamp'>{el.no_oficio_traspaso}</div></td>
-                    <td><div className='clamp'>
+                    <td>
+                      <div className='clamp'>
                       <div className={el.estatus && `estado ${el.estatus.toLowerCase()}`}>
                         {el.estatus}
                       </div>
-                    </div>
+                      </div>
                     </td>
                     <td className="acciones">
                       <div className='clamp'>
