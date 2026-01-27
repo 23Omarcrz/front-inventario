@@ -48,6 +48,7 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
           return {
             ...articulo,
             id_categoria,
+            valor: normalizeValor(articulo.valor),
             fecha_adquisicion: dateToISO(fechaAdq),
             fecha_asignacion: dateToISO(fechaAsig),
             fecha_ultima_revision: dateToISO(fechaRev)
@@ -57,6 +58,7 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
         allImportedArticles = [...allImportedArticles, ...articles];
       });
       setData(allImportedArticles);
+      console.log(allImportedArticles);
 
       // Resetear input para poder importar el mismo archivo otra vez
       fileInputRef.current.value = null;
@@ -85,41 +87,79 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
   };
 
   const excelValueToDate = (value) => {
-    if(value === "" || value === null || value === undefined ) return "";
-    /* if (!value) return null; */
+    if (value === "" || value === null || value === undefined) return null;
 
+    // Si es número (Excel serial date)
     if (typeof value === "number") {
       const utc_days = value - 25569;
       const utc_value = utc_days * 86400 * 1000;
-      /* return new Date(utc_value); */
       const date = new Date(utc_value);
-
-      if(!isNaN(date.getTime())) return date;
-
-      return value;
+      return isNaN(date.getTime()) ? null : date;
     }
 
+    // Si es string
     if (typeof value === "string") {
-      const date = new Date(value);
+      // Reemplazar "/" por "-" si viene DD/MM/YYYY
+      let normalized = value.replace(/\//g, "-").trim();
 
-      if (!isNaN(date.getTime())) {
-        return date;
+      // Detectar formato DD-MM-YYYY y convertir a YYYY-MM-DD
+      const ddmmyyyy = /^(\d{2})-(\d{2})-(\d{4})$/;
+      const match = normalized.match(ddmmyyyy);
+      if (match) {
+        normalized = `${match[3]}-${match[2]}-${match[1]}`;
       }
 
-      // string inválido → devolver original
-      return value;
+      const date = new Date(normalized);
+      return isNaN(date.getTime()) ? value : date; // **Si es inválido, devolvemos el texto tal cual**
     }
 
-  return value;
-    /* const date = new Date(value);
-    if (isNaN(date.getTime())) return null;
-    return date; */
+    // Cualquier otro tipo → inválido → devolver tal cual
+    return value;
   };
 
   const dateToISO = (date) => {
-    if (!(date instanceof Date)) return date;
-    
-    return date.toISOString().slice(0, 10);
+    if (!(date instanceof Date)) return date; // si es inválido, devolvemos tal cual
+    return date.toISOString().slice(0, 10); // YYYY-MM-DD
+  };
+
+
+  const normalizeValor = (value) => {
+    if (value === "" || value === null || value === undefined) {
+      // Celda vacía → enviar null
+      return null;
+    }
+
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? Number(value.toFixed(2)) : value;
+    }
+
+    if (typeof value === "string") {
+       // 1. Quitar espacios
+      let cleaned = value.replace(/\s/g, "");
+
+      // 2. Quitar símbolos de moneda
+      cleaned = cleaned.replace(/\$/g, "");
+
+      // 3. Quitar separadores de miles (coma)
+      cleaned = cleaned.replace(/,/g, "");
+
+      // 4. Reemplazar coma decimal por punto (en caso de que usen mal la notación)
+      cleaned = cleaned.replace(/,/g, ".");
+
+      // Si después de limpiar quedó vacío → devolver null
+      if (cleaned === "") return null;
+
+      const n = Number(cleaned);
+      if (Number.isFinite(n)) {
+        return Number(n.toFixed(2)); // número válido
+      }
+
+      // Texto no numérico → enviarlo tal cual para que el backend valide
+      return value;
+    }
+
+    // Otros tipos raros → enviar tal cual
+    return value;
   };
 
   return (

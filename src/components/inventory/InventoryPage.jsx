@@ -25,7 +25,7 @@ const InventoryPage = () => {
 
   // PAGINACIÓN
   const [paginaActual, setPaginaActual] = useState(1);
-  const [datosPorPagina] = useState(5);
+  const [datosPorPagina] = useState(30);
   const [totalPaginas, setTotalPaginas] = useState(0);
 
   const [errors, setErrors] = useState([]);
