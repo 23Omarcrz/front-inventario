@@ -14,73 +14,92 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
     const file = e.target.files[0];
     if (!file) return;
 
+    //Validar tipo de archivo
+    const allowedTypes = [
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      "application/vnd.ms-excel" // .xls
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setMessage("El archivo seleccionado no es un Excel válido (.xlsx, .xls).");
+      setOpenAlert(true);
+      fileInputRef.current.value = null;
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = (evt) => {
-      const data = evt.target.result;
+      try {
+        const data = evt.target.result;
+        // Leer archivo Excel
+        const workbook = XLSX.read(data, { type: "binary" });
 
-      // Leer archivo Excel
-      const workbook = XLSX.read(data, { type: "binary" });
+        let allImportedArticles = [];
+        let categoriesFound = [];
+        let categoriesNotFound = [];
 
-      let allImportedArticles = [];
-      let categoriesFound = [];
-      let categoriesNotFound = [];
+        workbook.SheetNames.forEach((sheetName) => {
+          // Obtener id_categoria a partir del nombre de la hoja
+          const id_categoria = categoryMap[sheetName];
+          if (!id_categoria) {
+            categoriesNotFound.push(sheetName)
+            /* alert(`La categoria "${sheetName}" no se existe para este usuario`);*/
+            return; // omite hoja si categoría no existe 
+          }
 
-      workbook.SheetNames.forEach((sheetName) => {
-        // Obtener id_categoria a partir del nombre de la hoja
-        const id_categoria = categoryMap[sheetName];
-        if (!id_categoria) {
-          categoriesNotFound.push(sheetName)
-          /* alert(`La categoria "${sheetName}" no se existe para este usuario`);*/
-          return; // omite hoja si categoría no existe 
+          categoriesFound.push(sheetName);
+
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+          const articles = jsonData.map((articulo) => {
+            const fechaAdq = excelValueToDate(articulo.fecha_adquisicion);
+            const fechaAsig = excelValueToDate(articulo.fecha_asignacion);
+            const fechaRev = excelValueToDate(articulo.fecha_ultima_revision);
+
+            return {
+              ...articulo,
+              id_categoria,
+              valor: normalizeValor(articulo.valor),
+              fecha_adquisicion: dateToISO(fechaAdq),
+              fecha_asignacion: dateToISO(fechaAsig),
+              fecha_ultima_revision: dateToISO(fechaRev)
+            };
+          });
+
+          allImportedArticles = [...allImportedArticles, ...articles];
+        });
+        setData(allImportedArticles);
+        console.log(allImportedArticles);
+
+        // Resetear input para poder importar el mismo archivo otra vez
+        fileInputRef.current.value = null;
+
+        if (!categoriesFound.length) {
+          setMessage("No se encontraron categorías válidas en el archivo.");
+          setOpenAlert(true);
+          return
         }
 
-        categoriesFound.push(sheetName);
-
-        const sheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-        const articles = jsonData.map((articulo) => {
-          const fechaAdq = excelValueToDate(articulo.fecha_adquisicion);
-          const fechaAsig = excelValueToDate(articulo.fecha_asignacion);
-          const fechaRev = excelValueToDate(articulo.fecha_ultima_revision);
-
-          return {
-            ...articulo,
-            id_categoria,
-            valor: normalizeValor(articulo.valor),
-            fecha_adquisicion: dateToISO(fechaAdq),
-            fecha_asignacion: dateToISO(fechaAsig),
-            fecha_ultima_revision: dateToISO(fechaRev)
-          };
-        });
-
-        allImportedArticles = [...allImportedArticles, ...articles];
-      });
-      setData(allImportedArticles);
-      console.log(allImportedArticles);
-
-      // Resetear input para poder importar el mismo archivo otra vez
-      fileInputRef.current.value = null;
-
-      if (!categoriesFound.length) {
-        setMessage("No se encontraron categorías válidas en el archivo.");
+        let mensaje = "";
+        // Mostrar al usuario las categorías importadas
+        if(categoriesNotFound.length){
+          mensaje += `Las siguientes categorías no se existe para este usuario: ${categoriesNotFound.map(cat => `"${cat}"`).join(", ")}.\n`;
+        }
+        if (categoriesFound.length) {
+          mensaje += `Se importarán artículos de las siguientes categorías: ${categoriesFound.join(", ")}`;
+        }
+        setMessage(mensaje);
+        setOpenConfirm(true);
+        // Guardar artículos en el estado local y enviar al backend
+        //setItems([...items, ...allImportedArticles]);
+      } catch (error) {
+        console.error(error);
+        setMessage("No se pudo leer el archivo. Asegúrese de que sea un archivo de Excel válido.");
         setOpenAlert(true);
-        return
+        fileInputRef.current.value = null;
       }
-
-      let mensaje = "";
-      // Mostrar al usuario las categorías importadas
-      if(categoriesNotFound.length){
-        mensaje += `Las siguientes categorías no se existe para este usuario: ${categoriesNotFound.map(cat => `"${cat}"`).join(", ")}.\n`;
-      }
-      if (categoriesFound.length) {
-         mensaje += `Se importarán artículos de las siguientes categorías: ${categoriesFound.join(", ")}`;
-      }
-      setMessage(mensaje);
-      setOpenConfirm(true);
-      // Guardar artículos en el estado local y enviar al backend
-      //setItems([...items, ...allImportedArticles]);
     };
 
     reader.readAsBinaryString(file);

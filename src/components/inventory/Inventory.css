@@ -34,8 +34,8 @@
     align-items: center;
     margin-bottom: 10px;
     /* ⬇️ AÑADIR */
-        flex-wrap: wrap;
-        gap: 12px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .header {
@@ -44,7 +44,7 @@
     margin: -5px 0px -5px 0px;
 }
 
-.header h3{
+.header h3 {
     margin-left: 10px;
 }
 
@@ -56,12 +56,12 @@
     transition: 0.25s;
 }
 
-.regresar img{
+.regresar img {
     height: 20px;
     padding: 5px 5px 0px 5px;
-}   
+}
 
-.regresar:hover{
+.regresar:hover {
     background: rgb(240, 240, 240);
 }
 
@@ -150,9 +150,20 @@ TABLA
 
 .inventory-table-scroll {
     overflow-x: auto;
-    max-height: 390px;
-    min-height: 390px;
+    /* max-height: 390px;
+    min-height: 390px; */
     overflow-y: auto;
+    max-height: calc(85vh - 250px);
+}
+
+.inventory-table-scroll::-webkit-scrollbar {
+  width: 7px;   /* vertical */
+  height: 7px;  /* horizontal */
+}
+
+.inventory-table-scroll::-webkit-scrollbar-thumb {
+    background-color: #cfcfcf;
+    border-radius: 6px;
 }
 
 .inventory-table th {
@@ -176,7 +187,7 @@ TABLA
 .inventory-table table {
     width: 100%;
     border-collapse: collapse;
-    
+
     /* para permitir scroll horizontal */
 }
 
@@ -238,7 +249,7 @@ TABLA
     visibility: visible;
     opacity: 1;
     } */
-    
+
 .inventory-table td {
     height: 43px;
     font-size: 11px;
@@ -247,8 +258,8 @@ TABLA
     border-bottom: 1px solid #f0f0f0;
     text-align: center;
 }
-    
-    
+
+
 .estado {
     padding: 3px;
     width: 50px;
@@ -257,7 +268,7 @@ TABLA
     margin: auto;
 }
 
-.ubicado{
+.ubicado {
     background: rgb(169, 223, 169);
 }
 
@@ -312,7 +323,20 @@ PAGINACIÓN
     margin-top: 12px;
     display: flex;
     gap: 6px;
-    justify-content:flex-start;
+    justify-content: flex-start;
+
+    overflow-x: auto;
+        max-width: 100%;
+        padding-bottom: 6px;
+}
+
+.pagination::-webkit-scrollbar {
+    height: 6px;
+}
+
+.pagination::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
 }
 
 .button-pagination {
@@ -338,7 +362,7 @@ PAGINACIÓN
     color: white;
 }
 
-.pagination .active:hover{
+.pagination .active:hover {
     background: #3db6d1;
 }
 
@@ -362,7 +386,7 @@ PAGINACIÓN
 
 
 /* Estilos para pantallas de 820px de ancho o menos */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .inventory-table-scroll {
         max-height: 900px;
         min-height: 900px;
@@ -376,7 +400,7 @@ PAGINACIÓN
     }
 }
 
- @media (max-width: 768px) {
+@media (max-width: 768px) {
     .inventory-header-content {
         flex-direction: column;
         align-items: stretch;
@@ -390,9 +414,9 @@ PAGINACIÓN
     .inventory-search input {
         max-width: 100%;
     }
+
     .inventory-table-scroll {
         max-height: 500px;
         min-height: 500px;
     }
-}
-
+} */
