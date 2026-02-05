@@ -142,10 +142,6 @@ TABLA
     border-collapse: collapse;
     min-width: 1900px;
     table-layout: fixed;
-    /* 🔑 ESTO ES LA CLAVE 
-    table-layout: fixed le dice al navegador: 
-    “No calcules el ancho por el contenido, usa el ancho definido”
-    */
 }
 
 .inventory-table-scroll {
@@ -198,7 +194,6 @@ TABLA
 .clamp {
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    /* o las líneas que quieras */
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-all;
@@ -218,7 +213,6 @@ TABLA
     display: none;
     z-index: 1000;
 
-    /* ESTO ES CLAVE */
     user-select: text;
     white-space: normal;
 }
@@ -226,29 +220,6 @@ TABLA
 .cell:hover .tooltip {
     display: block;
 }
-
-/* .tooltip-text {
-    visibility: hidden;
-  background-color: #333;
-  color: #fff;
-  text-align: left;
-  padding: 5px 8px;
-  border-radius: 4px;
-  position: absolute;
-  z-index: 100;
-  bottom: 45%;  aparece arriba del td 
-  left: 20%;
-  transform: translateX(-50%);
-  white-space: normal;
-  max-width: 300px;  ancho máximo del tooltip 
-  opacity: 0;
-  transition: opacity 0.2s;
-  }
-  
-  .inventory-table td:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-    } */
 
 .inventory-table td {
     height: 43px;
@@ -258,7 +229,6 @@ TABLA
     border-bottom: 1px solid #f0f0f0;
     text-align: center;
 }
-
 
 .estado {
     padding: 3px;

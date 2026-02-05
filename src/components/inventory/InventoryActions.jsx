@@ -129,10 +129,10 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
       }
 
       const date = new Date(normalized);
-      return isNaN(date.getTime()) ? value : date; // **Si es inválido, devolvemos el texto tal cual**
+      return isNaN(date.getTime()) ? value : date; // Si es invalido, devolvemos el texto tal cual
     }
 
-    // Cualquier otro tipo → inválido → devolver tal cual
+    // Cualquier otro tipo → invalido → devolver tal cual
     return value;
   };
 
@@ -170,7 +170,7 @@ const InventoryActions = ({ onAddItem, importFile, categoryMap, getReport }) => 
 
       const n = Number(cleaned);
       if (Number.isFinite(n)) {
-        return Number(n.toFixed(2)); // número válido
+        return Number(n.toFixed(2)); // número valido
       }
 
       // Texto no numérico → enviarlo tal cual para que el backend valide

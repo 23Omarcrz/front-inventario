@@ -70,7 +70,7 @@ const InventoryPage = () => {
     getCategories(validUser.id_usuario);
   },[]);
 
-  //NUEVO
+  //obtener el inventario
   useEffect(() => {
     if (!validUser) return;
 
@@ -153,7 +153,6 @@ const InventoryPage = () => {
     return () => clearTimeout(timeout);
   }, [searchInput]);
 
-  //NUEVO
   const handleCategoryChange = (id_categoria) => {
     setSelectedCategory(id_categoria);
     setPaginaActual(1);
@@ -277,14 +276,12 @@ const InventoryPage = () => {
     }
   }
 
-  // Crear un mapa nombre → id_categoría
   const categoryMap = categories.reduce((map, cat) => {
     map[cat.nombre] = cat.id_categoria;
     return map;
   }, {});
 
   const handleImportFile = async(file) => {
-    console.log(file)
     try {
       const url = `inventario/usuario/categoria/import/articulos`;
       const result = await dataFromApi("post", url, "", file);
@@ -294,7 +291,6 @@ const InventoryPage = () => {
         setRefreshInventory(prev => prev + 1);
       }
     } catch (error) {
-      console.log(error);
       setMessage(null);
       if(!error.response) {
         return alert("No se pudo conectar con el servidor");
@@ -322,7 +318,6 @@ const InventoryPage = () => {
     } catch (error) {
       console.log(error)
       if (!error.response) {
-        // Esto indica que NO hubo respuesta
         return alert("No se pudo conectar con el servidor:(");
       }
       

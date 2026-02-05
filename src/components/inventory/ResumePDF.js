@@ -3,7 +3,7 @@ import autoTable from "jspdf-autotable";
 
 const ReportePDF = (data) => {
   const doc = new jsPDF({
-    orientation: "landscape", // 👈 horizontal
+    orientation: "landscape", //horizontal
     unit: "mm",
     format: "a4"
   });
@@ -72,9 +72,9 @@ const ReportePDF = (data) => {
         0: { cellWidth: 18 },
         1: { cellWidth: 18 },
         2: { cellWidth: 12 },
-        3: { cellWidth: 30 }, // Descripción
+        3: { cellWidth: 30 }, 
         4: { cellWidth: 22 },
-        5: { cellWidth: 35 }, // Observaciones (controlada)
+        5: { cellWidth: 35 }, 
         6: { cellWidth: 12, halign: "right" },
         7: { cellWidth: 14 },
         8: { cellWidth: 14 },

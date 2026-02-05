@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {                          // cualquier ruta que empiece con /api
-        target: 'http://192.168.0.127:3000',  // tu backend
+        target: 'http://192.168.3.76:3000',  // tu backend
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '') // elimina /api al mandar al backend

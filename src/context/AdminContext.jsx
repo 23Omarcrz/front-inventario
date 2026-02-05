@@ -34,7 +34,7 @@ const AdminProvider = ({ children }) => {
                 localStorage.setItem("admin", JSON.stringify(res.data.adminData));
             } catch (error) {
                 setAdmin(null);
-                localStorage.removeItem("admin"); // ✅ CLAVE
+                localStorage.removeItem("admin"); // 
             }
         }
 

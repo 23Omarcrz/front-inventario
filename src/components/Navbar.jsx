@@ -21,7 +21,7 @@ const Navbar = () => {
         } catch (error) {
             console.log(error);
         }
-    // Aquí puedes limpiar el token o la sesión del usuario
+    
     localStorage.removeItem("admin") // ejemplo
     setAdmin(null)
     localStorage.removeItem("validUser") // ejemplo
