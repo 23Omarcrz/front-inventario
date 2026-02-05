@@ -9,7 +9,7 @@ const DeleteUsersModal = ({ isOpen, onClose, users, setUsers, setOpenAlert }) =>
     const [loading, setLoading] = useState(false);
     const {validUser, setValidUser } = useContext(UsersContext);
 
-    // 🔹 Resetear estado al abrir
+    //Resetear estado al abrir
     useEffect(() => {
         if (isOpen) {
             setSelectedUsers([]);

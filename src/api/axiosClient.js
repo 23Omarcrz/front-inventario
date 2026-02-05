@@ -1,4 +1,4 @@
-import api from './axiosInstance'; // el archivo anterior
+import api from './axiosInstance';
 
 const dataFromApi = async (method, url, endpoint = "", body) => {
     try {

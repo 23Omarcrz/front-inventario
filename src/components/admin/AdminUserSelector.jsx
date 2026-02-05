@@ -47,9 +47,6 @@ export default function AdminUserSelector() {
 
     getUsers(admin.id_admin);
   }, []);
-  /* const handleSubmit = () => {
-
-  } */
 
   //Por seguridad, verifica que, efectivamente, el admin seleccionado existe.
   const handleSelectedUser = async (user) => {

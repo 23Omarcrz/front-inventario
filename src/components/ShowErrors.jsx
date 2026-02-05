@@ -1,7 +1,8 @@
 import "./styles/showErrors.css"
 
 const ErrorsModal = ({ response, setErrors, onClose }) => {
-  const errors = response.data
+  const errors = response.data;
+  const errorCode = errors.code;
 
   return (
     <div className="modal-backdrop-custom">
@@ -35,7 +36,10 @@ const ErrorsModal = ({ response, setErrors, onClose }) => {
               <ul>
                 <li key={i}>
                   <h4>Fila {err.row}</h4>
-                  <strong>Registro duplicado:</strong> {err.no_inventario}
+                  <strong>
+                    {errorCode === "DUPLICATE_IN_FILE"
+                    ? "Registro duplicado en el archivo:"
+                    : "Registro duplicado en el sistema:"}</strong> {err.no_inventario}
                 </li>
                 <hr />
               </ul>
